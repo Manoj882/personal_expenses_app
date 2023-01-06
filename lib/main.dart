@@ -47,18 +47,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 't1',
-      title: 'Buy Shoes',
-      amount: 25.34,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Groceries',
-      amount: 70.34,
-      date: DateTime.now(),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Buy Shoes',
+    //   amount: 25.34,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Groceries',
+    //   amount: 70.34,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -71,7 +71,8 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String transTitle, double transAmount, DateTime chosenDate) {
+  void _addNewTransaction(
+      String transTitle, double transAmount, DateTime chosenDate) {
     final newTransaction = Transaction(
       id: DateTime.now().toString(),
       title: transTitle,
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _deleteTransaction(String id){
+  void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((trans) => trans.id == id);
     });
@@ -106,27 +107,39 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Personal Expenses App'),
-        actions: [
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: Icon(
-              Icons.add_outlined,
-            ),
+    final appBar = AppBar(
+      title: Text('Personal Expenses App'),
+      actions: [
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: Icon(
+            Icons.add_outlined,
           ),
-        ],
-      ),
+        ),
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Chart(recentTransaction: _recentTransactions),
-            SizedBox(
-              height: 10,
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.3,
+              child: Chart(recentTransaction: _recentTransactions),
             ),
-            TransactionList(transactions: _userTransactions, deleteTrans: _deleteTransaction),
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.7,
+              child: TransactionList(
+                  transactions: _userTransactions,
+                  deleteTrans: _deleteTransaction),
+            ),
           ],
         ),
       ),
