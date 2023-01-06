@@ -7,11 +7,13 @@ import 'package:personal_expenses_app/widgets/new_transaction.dart';
 import 'package:personal_expenses_app/widgets/transaction_list.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitDown,
+  //   ],
+  // );
   runApp(const MyApp());
 }
 
@@ -96,6 +98,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  bool _showChart = false;
+
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -130,14 +134,25 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Show Chart'),
+                Switch(value: _showChart, onChanged: (value){
+                  setState(() {
+                    _showChart = value;
+                  });
+                }),
+              ],
+            ),
+            _showChart ? Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
-                  0.3,
+                  0.7,
               child: Chart(recentTransaction: _recentTransactions),
-            ),
-            Container(
+            )
+            : Container(
               height: (MediaQuery.of(context).size.height -
                       appBar.preferredSize.height -
                       MediaQuery.of(context).padding.top) *
