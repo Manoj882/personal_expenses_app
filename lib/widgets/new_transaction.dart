@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:personal_expenses_app/widgets/adaptive_text_button.dart';
 
 class NewTransaction extends StatefulWidget {
   NewTransaction({required this.addTransaction, super.key});
@@ -17,7 +21,7 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime? _selectedDate;
 
   void _submitData() {
-    if(_amountController.text.isEmpty){
+    if (_amountController.text.isEmpty) {
       return;
     }
     final enteredTitle = _titleController.text;
@@ -41,7 +45,7 @@ class _NewTransactionState extends State<NewTransaction> {
       firstDate: DateTime(2021),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
-      if(pickedDate == null){
+      if (pickedDate == null) {
         return;
       }
       setState(() {
@@ -84,16 +88,13 @@ class _NewTransactionState extends State<NewTransaction> {
                 child: Row(
                   children: [
                     Text(
-                      _selectedDate == null ?
-                      'No date Chosen !'
-                      : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}'
-                      ,
+                      _selectedDate == null
+                          ? 'No date Chosen !'
+                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate!)}',
                     ),
-                    TextButton(
-                      onPressed: _presentDatePicker,
-                      child: Text(
-                        'Choose Date',
-                      ),
+                    AdaptiveTextButton(
+                      handler: _presentDatePicker,
+                      text: 'Choose Date',
                     ),
                   ],
                 ),
